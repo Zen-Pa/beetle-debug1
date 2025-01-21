@@ -24,6 +24,7 @@
 
 body {
   margin: 0;
+  padding: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
@@ -35,16 +36,16 @@ h1 {
   line-height: 1.1;
 }
 
-    #app {
+    /* #app {
       max-width: 1280px;
       margin: 0 auto;
       padding: 2rem;
       text-align: center;
-    }
+    } */
 
-.card {
+/* .card {
   padding: 2em;
-}
+} */
 
 button {
   border-radius: 8px;
@@ -79,14 +80,19 @@ button:focus-visible {
 }
 
 /* dragula */
+.main-container {
+  background: rgb(36, 8, 8);
+  border: 1px solid coral;
+  padding: 1em;
+}
 .dragable-item {
-  background-color: coral;
-  /* margin: 2em; */
-  padding: 2em;
-  border: 1px solid #000;
+  background-color: rgb(68, 12, 8);
+  padding: 4em;
+  border: 1px solid coral;
 }
 
 .gu-mirror {
+  /* padding: 0em; */
   position: fixed !important;
   margin: 0 !important;
   z-index: 9999 !important;
@@ -104,6 +110,7 @@ button:focus-visible {
   user-select: none !important;
 }
 .gu-transit {
+  /* padding: 0; */
   opacity: 0.2;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);

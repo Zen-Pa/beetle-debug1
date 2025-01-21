@@ -16,25 +16,35 @@
         <button id="exit-game">Exit Game</button>
 
     <!-- <script type="module" src="/src/main.js"></script> -->
-    <!-- <script type="module" src="/node_modules/dragula/example/example.js"></script> -->
      
+    
+    <div class="main-container">
+      <div class="container">
+        <div class="dragable-item">notion1</div>
+        <div class="dragable-item">notion2</div>
+        <div class="dragable-item">notion3</div>
+      </div>
+      <div class="container" style="margin-top: 10px;">
+        <div class="dragable-item">notion4</div>
+        <div class="dragable-item">notion5</div>
+      </div>
+    </div>
+
     <script src="node_modules/dragula/dist/dragula.min.js"></script>
 
-      <div class="page-wrapper">
-          <div class="drag-wrapper">
-            <div class="dragable-item">1</div>
-            <div class="dragable-item">2</div>
-            <div class="dragable-item">3</div>
-          </div>
-      </div>
+    <script>
+      // window.onload = function() {
+      //   dragula([
+      //     document.querySelector('.container'),
+      //   ]);
+      // }
 
-      <script>
-        window.onload = function() {
-          dragula([
-            document.querySelector('.drag-wrapper')
-          ]);
+      var drake = dragula({
+        isContainer: function (el) {
+          return el.classList.contains('container');
         }
-      </script>
+      });
+    </script>
 
   </body>
 </html>
