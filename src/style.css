@@ -108,9 +108,9 @@ button:focus-visible {
 }
 .dragula-item {
   background-color: rgb(68, 12, 8);
-  padding: 4em;
+  padding: 2em;
   /* border: 1px solid coral; */
-  /* cursor: drag; */
+  cursor: move;
 }
 
 .gu-mirror {
