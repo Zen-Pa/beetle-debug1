@@ -26,6 +26,7 @@ body {
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: column;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -66,6 +67,16 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.menu-container {
+  background-color:#0000007a;
+  padding: 2em 4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: .6em;
+  border-radius: 8px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -80,7 +91,7 @@ button:focus-visible {
 }
 
 /* dragula */
-.main-container {
+.container {
   background: rgb(36, 8, 8);
   border: 1px solid coral;
   padding: 1em;
