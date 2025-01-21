@@ -91,15 +91,26 @@ button:focus-visible {
 }
 
 /* dragula */
-.container {
+.dragula-container {
   background: rgb(36, 8, 8);
-  border: 1px solid coral;
+  /* border: 1px solid coral; */
+  display: flex;
   padding: 1em;
+  gap: 2em;
 }
-.dragable-item {
+.dragula-slot {
+  background: rgb(26, 3, 3);
+  /* border: 1px solid coral; */
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  gap: 1em;
+}
+.dragula-item {
   background-color: rgb(68, 12, 8);
   padding: 4em;
-  border: 1px solid coral;
+  /* border: 1px solid coral; */
+  /* cursor: drag; */
 }
 
 .gu-mirror {
