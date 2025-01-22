@@ -100,6 +100,8 @@ button:focus-visible {
 }
 .dragula-slot {
   background: rgb(26, 3, 3);
+  min-width: 128px;
+  min-height: 64px;
   /* border: 1px solid coral; */
   display: flex;
   flex-direction: column;

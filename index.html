@@ -47,46 +47,106 @@
 
 
         <div class="dragula-container" id="container1">
+          container 1
           <div class="dragula-item">Item 1</div>
           <div class="dragula-item">Item 2</div>
           <div class="dragula-item">Item 3</div>
         </div>
 
-        <div class="dragula-slot" id="slot1" data-max-items="2">slot 1</div>
-        <div class="dragula-slot" id="slot2" data-max-items="3">slot 2</div>
+        <div class="dragula-slot" id="slot1" data-max-items="2">
+          slot 1
+          <div class="dragula-item">Item 4</div>
+          <div class="dragula-item">Item 5</div>
+        </div>
+        <div class="dragula-slot" id="slot2" data-max-items="3">
+          slot 2
+        </div>
         <!-- <script type="module" src="src/drag-test.js"></script> -->
 
 
         <script>
-        // Select containers and slots
-            const container1 = document.getElementById('container1');
-            const slot1 = document.getElementById('slot1');
-            const slot2 = document.getElementById('slot2');
+          // Select containers and slots
+              const container1 = document.getElementById('container1');
+              const slot1 = document.getElementById('slot1');
+              const slot2 = document.getElementById('slot2');
 
-        // Initialize Dragula
-            const drake = dragula([container1, slot1, slot2], {
-              copy: (el, source) => source === container1, // Copy only when dragging from the container
-              accepts: (el, target) => {
-                if (target === container1) return false; // Prevent dropping into the original container
-                const maxItems = parseInt(target.getAttribute('data-max-items'), 10);
+          // Initialize Dragula for containers
+              dragula([container1], {
+                isContainer: function (el) {
+                  return false; // only elements in drake.containers will be taken into account
+                },
+                moves: function (el, source, handle, sibling) {
+                  return true; // elements are always draggable by default
+                },
+                accepts: function (el, target, source, sibling) {
+                  return true; // elements can be dropped in any of the `containers` by default
+                },
+                invalid: function (el, handle) {
+                  return false; // don't prevent any drags from initiating by default
+                },
+                direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
+                copy: false,                       // elements are moved by default, not copied
+                copySortSource: false,             // elements in copy-source containers can be reordered
+                revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
+                removeOnSpill: true,              // spilling will `.remove` the element, if this is true
+                mirrorContainer: document.body,    // set the element that gets mirror elements appended
+                ignoreInputTextSelection: true,     // allows users to select input text, see details below
+                slideFactorX: 0,               // allows users to select the amount of movement on the X axis before it is considered a drag instead of a click
+                slideFactorY: 0,               // allows users to select the amount of movement on the Y axis before it is considered a drag instead of a click
+              });
 
-                // Check if the item already exists in the slot
-                const itemExists = Array.from(target.children).some(
-                  (child) => child.textContent === el.textContent
-                );
+          // Initialize Dragula for slots
+              dragula([slot1, slot2], {
+                isContainer: function (el) {
+                  return false; // only elements in drake.containers will be taken into account
+                },
+                moves: function (el, source, handle, sibling) {
+                  return true; // elements are always draggable by default
+                },
+                accepts: function (el, target, source, sibling) {
+                  return true; // elements can be dropped in any of the `containers` by default
+                },
+                invalid: function (el, handle) {
+                  return false; // don't prevent any drags from initiating by default
+                },
+                direction: 'vertical',             // Y axis is considered when determining where an element would be dropped
+                copy: false,                       // elements are moved by default, not copied
+                copySortSource: false,             // elements in copy-source containers can be reordered
+                revertOnSpill: false,              // spilling will put the element back where it was dragged from, if this is true
+                removeOnSpill: false,              // spilling will `.remove` the element, if this is true
+                mirrorContainer: document.body,    // set the element that gets mirror elements appended
+                ignoreInputTextSelection: true,     // allows users to select input text, see details below
+                slideFactorX: 0,               // allows users to select the amount of movement on the X axis before it is considered a drag instead of a click
+                slideFactorY: 0,               // allows users to select the amount of movement on the Y axis before it is considered a drag instead of a click
+              });
 
-                return target.children.length < maxItems && !itemExists; // Allow if not full and no duplicate
-              },
-              removeOnSpill: false // Prevent accidental deletions
-            });
+
+
+
+        // // Initialize Dragula
+        //     const drake = dragula([container1, slot1, slot2], {
+        //       copy: (el, source) => source === container1, // Copy only when dragging from the container
+        //       accepts: (el, target) => {
+        //         if (target === container1) return false; // Prevent dropping into the original container
+        //         const maxItems = parseInt(target.getAttribute('data-max-items'), 10);
+
+        //         // Check if the item already exists in the slot
+        //         const itemExists = Array.from(target.children).some(
+        //           (child) => child.textContent === el.textContent
+        //         );
+
+        //         return target.children.length < maxItems && !itemExists; // Allow if not full and no duplicate
+        //       },
+        //       removeOnSpill: false // Prevent accidental deletions
+        //     });
             
 
         // Remove cloned items from slots when dragged back to the container
-            drake.on('drop', (el, target, source) => {
-              if (source !== container1 && target === container1) {
-                el.parentNode.removeChild(el); // Remove the item
-              }
-            });
+            // drake.on('drop', (el, target, source) => {
+            //   if (source !== container1 && target === container1) {
+            //     el.parentNode.removeChild(el); // Remove the item
+            //   }
+            // });
 
 
 
