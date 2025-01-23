@@ -104,3 +104,63 @@ function addDragListeners(item) {
     e.dataTransfer.setData('source', 'n-container-socket'); // Identify source container
   });
 }
+
+
+// const sockets = document.querySelectorAll('.n-container-socket');
+
+sockets.forEach((socket) => {
+  // Handle dragover to allow dropping and set border dynamically
+  socket.addEventListener('dragover', (e) => {
+    e.preventDefault();
+
+    const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+    const currentItems = socket.querySelectorAll('.item').length;
+    const draggedItemId = e.dataTransfer.getData('text/plain');
+    const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
+
+    // Check if the socket is full or has a duplicate
+    const isFull = currentItems >= maxItems;
+    const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+      (item) => item.id.startsWith(draggedOriginalId)
+    );
+
+    if (isFull || hasDuplicate) {
+      socket.classList.add('border-red');
+      socket.classList.remove('border-green', 'border-none');
+    } else {
+      socket.classList.add('border-green');
+      socket.classList.remove('border-red', 'border-none');
+    }
+  });
+
+  // Handle dragenter (when an item enters the socket)
+  socket.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    socket.classList.add('border-none'); // Initially, no border until logic in dragover sets it
+  });
+
+  // Handle dragleave (when the item leaves the socket area)
+  socket.addEventListener('dragleave', (e) => {
+    socket.classList.remove('border-green', 'border-red');
+    socket.classList.add('border-none'); // Reset border to none
+  });
+
+  // Handle drop (to finalize the drop and reset borders)
+  socket.addEventListener('drop', (e) => {
+    e.preventDefault();
+    socket.classList.remove('border-green', 'border-red', 'border-none'); // Reset border on drop
+  });
+});
+
+// Reset all borders when dragging ends
+document.addEventListener('dragend', () => {
+  sockets.forEach((socket) => {
+    socket.classList.remove('border-green', 'border-red');
+    socket.classList.add('border-none');
+  });
+});
+
+
+
+
+

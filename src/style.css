@@ -112,7 +112,8 @@ button:focus-visible {
 }
 
 .n-container-socket {
-  /* border-color: #dc3545; */
+  border: 2px dashed transparent; /* Default border */
+  transition: border-color 0.3s ease; /* Smooth border color change */
   background-color: var(--container1);
   position: relative;
 }
@@ -155,4 +156,18 @@ button:focus-visible {
 .dnd-container {
   display: flex;
   /* gap: 1em; */
+}
+
+
+/* feedback */
+.n-container-socket.border-green {
+  border-color: #28a745; /* Green border when the item can be dropped */
+}
+
+.n-container-socket.border-red {
+  border-color: #dc3545; /* Red border when drop is not allowed */
+}
+
+.n-container-socket.border-none {
+  border-color: transparent; /* No border when no drag is happening */
 }
