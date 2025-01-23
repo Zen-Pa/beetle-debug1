@@ -1,5 +1,7 @@
 const items = document.querySelectorAll('.item');
 const sockets = document.querySelectorAll('.n-container-socket');
+const dropSound = new Audio('/assets/notification-sound-269266.mp3'); 
+
 
 // Allow dragging of items in n-container
 items.forEach(item => {
@@ -61,12 +63,14 @@ sockets.forEach(socket => {
         newItem.draggable = true; // Make the new item draggable
         addDragListeners(newItem); // Add drag listeners to the new item
         socket.appendChild(newItem); // Add to the socket
+        dropSound.play(); // Play the drop sound--------------------------------------------------------------
       }
     } else if (source === 'n-container-socket') {
       // Move the item between sockets
       const draggedItem = document.getElementById(itemId);
       if (draggedItem) {
         socket.appendChild(draggedItem);
+        dropSound.play(); // Play the drop sound--------------------------------------------------------------
       }
     }
   });
@@ -149,6 +153,7 @@ sockets.forEach((socket) => {
   socket.addEventListener('drop', (e) => {
     e.preventDefault();
     socket.classList.remove('border-green', 'border-red', 'border-none'); // Reset border on drop
+    dropSound.play(); // Play the drop sound--------------------------------------------------------------
   });
 });
 
@@ -157,6 +162,7 @@ document.addEventListener('dragend', () => {
   sockets.forEach((socket) => {
     socket.classList.remove('border-green', 'border-red');
     socket.classList.add('border-none');
+    
   });
 });
 
@@ -164,3 +170,28 @@ document.addEventListener('dragend', () => {
 
 
 
+
+// Create an audio object for the drop sound
+
+// Add drop event listener to all sockets
+// sockets.forEach((socket) => {
+//   socket.addEventListener('drop', (e) => {
+//     e.preventDefault();
+
+//     const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+//     const currentItems = socket.querySelectorAll('.item').length;
+
+//     const itemId = e.dataTransfer.getData('text/plain');
+//     const draggedItem = document.getElementById(itemId);
+
+//     if (currentItems < maxItems && draggedItem) {
+//       // Successful drop logic (e.g., append item to the socket)
+//       socket.appendChild(draggedItem);
+
+//       // Play the drop sound
+//       dropSound.play();
+//     } else {
+//       alert('Socket is full or drop is invalid.');
+//     }
+//   });
+// });
