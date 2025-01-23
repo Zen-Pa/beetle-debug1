@@ -37,16 +37,15 @@
       </div>
       
       <!-- n-container-sockets -->
-      <div class="n-container-socket">
-     </div>
-     <div class="n-container-socket"></div>
+      <div class="n-container-socket" data-max-items="3"></div>
+     <div class="n-container-socket" data-max-items="2"></div>
   
 
   <script>
-    // Allow dragging of items in n-container
     const items = document.querySelectorAll('.item');
     const sockets = document.querySelectorAll('.n-container-socket');
 
+    // Allow dragging of items in n-container
     items.forEach(item => {
       item.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', e.target.id); // Store the item's ID
@@ -58,13 +57,44 @@
       // Allow dragover to enable dropping
       socket.addEventListener('dragover', (e) => {
         e.preventDefault();
+
+        const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+        const currentItems = socket.querySelectorAll('.item').length;
+
+        // Highlight socket if full
+        if (currentItems >= maxItems) {
+          socket.classList.add('socket-full');
+        } else {
+          socket.classList.remove('socket-full');
+        }
       });
 
       // Handle the drop event
       socket.addEventListener('drop', (e) => {
         e.preventDefault();
+
+        const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+        const currentItems = socket.querySelectorAll('.item').length;
+
+        // Prevent drop if socket is full
+        if (currentItems >= maxItems) {
+          // alert('This socket is full.');
+          return;
+        }
+
         const itemId = e.dataTransfer.getData('text/plain'); // Get the dragged item ID
         const source = e.dataTransfer.getData('source'); // Get the source of the dragged item
+        const originalItemId = itemId.replace(/-copy-\d+$/, ''); // Extract the original item ID (for duplicates check)
+
+        // Prevent duplicates in the same socket
+        const isDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+          item => item.id.startsWith(originalItemId)
+        );
+
+        if (isDuplicate) {
+          // alert('This item already exists in this socket.');
+          return;
+        }
 
         if (source === 'n-container') {
           // Create a copy of the item if dragged from n-container
