@@ -63,14 +63,20 @@ sockets.forEach(socket => {
         newItem.draggable = true; // Make the new item draggable
         addDragListeners(newItem); // Add drag listeners to the new item
         socket.appendChild(newItem); // Add to the socket
-        dropSound.play(); // Play the drop sound--------------------------------------------------------------
+        // dropSound.play(); // Play the drop sound--------------------------------------------------------------
+            // Dynamically create and play the sound
+            const dropSound = new Audio('/assets/notification-sound-269266.mp3');
+            dropSound.play();
       }
     } else if (source === 'n-container-socket') {
       // Move the item between sockets
       const draggedItem = document.getElementById(itemId);
       if (draggedItem) {
         socket.appendChild(draggedItem);
-        dropSound.play(); // Play the drop sound--------------------------------------------------------------
+        // dropSound.play(); // Play the drop sound--------------------------------------------------------------
+        // Dynamically create and play the sound
+        const dropSound = new Audio('/assets/notification-sound-269266.mp3');
+        dropSound.play();
       }
     }
   });
@@ -153,7 +159,7 @@ sockets.forEach((socket) => {
   socket.addEventListener('drop', (e) => {
     e.preventDefault();
     socket.classList.remove('border-green', 'border-red', 'border-none'); // Reset border on drop
-    dropSound.play(); // Play the drop sound--------------------------------------------------------------
+    // dropSound.play(); // Play the drop sound--------------------------------------------------------------
   });
 });
 
