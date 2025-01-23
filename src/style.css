@@ -86,7 +86,7 @@ body {
   padding: 0;
 }
 
-#container {
+.container {
   width: 300px;
   height: 400px;
   border: 2px dashed #007bff;

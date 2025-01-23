@@ -11,30 +11,36 @@
     <!-- <div id="app"></div> -->
      <h1>🐞Beetle Debug</h1>
 
-     <h1>Drag Items and Drop Outside</h1>
-     <p>Drag items from the container. Dropping them outside will delete them.</p>
    
-     <div id="container">
+     <div class="container" id="container1">
        <div class="item" draggable="true" id="item-1">Item 1</div>
        <div class="item" draggable="true" id="item-2">Item 2</div>
        <div class="item" draggable="true" id="item-3">Item 3</div>
      </div>
+     <div class="container" id="container2">
+      <div class="item" draggable="true" id="item-4">Item 1</div>
+      <div class="item" draggable="true" id="item-5">Item 2</div>
+      <div class="item" draggable="true" id="item-6">Item 3</div>
+    </div>
    
      <div id="outside-area"></div>
   
 
   <script>
-    const container = document.getElementById('container');
+    // const container = document.getElementById('container');
     const items = document.querySelectorAll('.item');
 
+  // delete on spill 
     items.forEach(item => {
+      const parentContainer = item.parentElement;
+
       item.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', e.target.id);
         e.target.classList.add('dragging');
       });
 
       item.addEventListener('dragend', (e) => {
-        const rect = container.getBoundingClientRect();
+        const rect = parentContainer.getBoundingClientRect();
         const x = e.clientX;
         const y = e.clientY;
 
