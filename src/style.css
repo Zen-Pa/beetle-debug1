@@ -11,6 +11,15 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --primary: rgb(3, 122, 39);
+  --secondary: rgb(253, 231, 38);
+
+  --dark: #1a1a1a;
+  --container: #313131;
+  --container1: #494949;
+
+  --text: #1a1a1a;
 }
 
     a {
@@ -53,12 +62,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--dark);
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #64ffaa;
+  border-color: var(--primary);
 }
 button:focus,
 button:focus-visible {
@@ -82,22 +91,29 @@ button:focus-visible {
 /* drag n drop */
 
 .n-container, .n-container-socket {
+  background-color: var(--container);
   width: 300px;
   min-height: 300px;
-  border: 2px dashed #007bff;
-  margin: 10px;
-  padding: 10px;
-  display: inline-block;
-  vertical-align: top;
-  background-color: #f9f9f9;
+  /* border: 2px dashed #007bff; */
+  margin: 1em;
+  padding: 1em;
+  display: flex;
+  align-items: start;
+  align-content: start;
+  gap: .2em;
+  /* vertical-align: top; */
+  
+  /* white-space: nowrap; */
+  flex-wrap: wrap;
 }
 
 .n-container {
-  border-color: #28a745;
+  /* border-color: #28a745; */
 }
 
 .n-container-socket {
-  border-color: #dc3545;
+  /* border-color: #dc3545; */
+  background-color: var(--container1);
   position: relative;
 }
 
@@ -111,22 +127,32 @@ button:focus-visible {
 }
 
 .item {
-  width: 80px;
-  height: 80px;
-  background-color: #007bff;
-  color: white;
-  display: flex;
-  align-items: center;
+  /* width: 80px; */
+  /* height: 80px; */
+  background-color: var(--secondary);
+  color: var(--text);
+  /* display: flex; */
+  /* align-items: auto; */
   justify-content: center;
   border-radius: 5px;
-  cursor: grab;
-}
+  cursor: grab; 
+
+  font-size: 1.6em;
+  font-weight: 700;
+  padding: .4em;
+  /* display: inline-block; */
+  }
 
 .item:active {
   cursor: grabbing;
 }
 
 .socket-full {
-  background-color: #ffd1d1;
-  border-color: #ff0000;
+  /* background-color: #ffd1d1; */
+  /* border-color: #ff0000; */
+}
+
+.dnd-container {
+  display: flex;
+  /* gap: 1em; */
 }
