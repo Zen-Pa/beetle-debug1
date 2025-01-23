@@ -80,7 +80,7 @@ button:focus-visible {
 
 
 /* drag n drop */
-body {
+/* body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
@@ -117,4 +117,42 @@ body {
 #outside-area {
   border: 2px dashed red;
   height: 100vh;
+} */
+
+
+
+/* dnd  */
+.n-container, .n-container-socket {
+  width: 300px;
+  min-height: 300px;
+  border: 2px dashed #007bff;
+  margin: 10px;
+  padding: 10px;
+  display: inline-block;
+  vertical-align: top;
+  background-color: #f9f9f9;
+}
+
+.n-container {
+  border-color: #28a745;
+}
+
+.n-container-socket {
+  border-color: #dc3545;
+}
+
+.item {
+  width: 80px;
+  height: 80px;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: grab;
+}
+
+.item:active {
+  cursor: grabbing;
 }

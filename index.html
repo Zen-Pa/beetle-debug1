@@ -12,7 +12,7 @@
      <h1>🐞Beetle Debug</h1>
 
    
-     <div class="container" id="container1">
+     <!-- <div class="container" id="container1">
        <div class="item" draggable="true" id="item-1">Item 1</div>
        <div class="item" draggable="true" id="item-2">Item 2</div>
        <div class="item" draggable="true" id="item-3">Item 3</div>
@@ -23,40 +23,88 @@
       <div class="item" draggable="true" id="item-6">Item 3</div>
     </div>
    
-     <div id="outside-area"></div>
+     <div id="outside-area"></div> -->
+
+
+     <h1>Drag-and-Drop with Copy</h1>
+     <p>Drag items from the green container and drop them into the red sockets to create a copy.</p>
+   
+     <div class="n-container">
+       <div class="item" draggable="true" id="item-1">Item 1</div>
+       <div class="item" draggable="true" id="item-2">Item 2</div>
+       <div class="item" draggable="true" id="item-3">Item 3</div>
+     </div>
+   
+     <div class="n-container-socket"></div>
+     <div class="n-container-socket"></div>
   
 
   <script>
-    // const container = document.getElementById('container');
+    // Allow dragging of items in n-container
     const items = document.querySelectorAll('.item');
-
-  // delete on spill 
     items.forEach(item => {
-      const parentContainer = item.parentElement;
-
       item.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', e.target.id);
-        e.target.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', e.target.id); // Store the item's ID
+      });
+    });
+
+    // Enable drop functionality for n-container-socket
+    const sockets = document.querySelectorAll('.n-container-socket');
+    sockets.forEach(socket => {
+      // Allow dragover to enable dropping
+      socket.addEventListener('dragover', (e) => {
+        e.preventDefault(); // Required for drop to work
       });
 
-      item.addEventListener('dragend', (e) => {
-        const rect = parentContainer.getBoundingClientRect();
-        const x = e.clientX;
-        const y = e.clientY;
+      // Handle the drop event
+      socket.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const itemId = e.dataTransfer.getData('text/plain'); // Get the ID of the dragged item
+        const originalItem = document.getElementById(itemId);
 
-        // Check if the drop is outside the container
-        if (
-          x < rect.left || 
-          x > rect.right || 
-          y < rect.top || 
-          y > rect.bottom
-        ) {
-          const itemId = e.dataTransfer.getData('text/plain');
-          const element = document.getElementById(itemId);
-          element.remove(); // Remove the item from the DOM
+        if (originalItem) {
+          // Create a copy of the item
+          const newItem = originalItem.cloneNode(true);
+          newItem.id = `${itemId}-copy-${Date.now()}`; // Assign a unique ID to the copied item
+          socket.appendChild(newItem); // Add the copy to the socket
         }
       });
     });
+
+
+  //   // const container = document.getElementById('container');
+  //   const items = document.querySelectorAll('.item');
+
+  // // delete on spill 
+  //   items.forEach(item => {
+  //     const parentContainer = item.parentElement;
+
+  //     item.addEventListener('dragstart', (e) => {
+  //       e.dataTransfer.setData('text/plain', e.target.id);
+  //       e.target.classList.add('dragging');
+  //     });
+
+  //     item.addEventListener('dragend', (e) => {
+
+  //       const rect = parentContainer.getBoundingClientRect();
+  //       const x = e.clientX;
+  //       const y = e.clientY;
+
+  //       // Check if the drop is outside the container
+  //       if (
+  //         x < rect.left || 
+  //         x > rect.right || 
+  //         y < rect.top || 
+  //         y > rect.bottom
+  //       ) {
+  //         const itemId = e.dataTransfer.getData('text/plain');
+  //         const element = document.getElementById(itemId);
+  //         element.remove(); // Remove the item from the DOM
+  //       }
+  //     });
+
+
+  //   });
   </script>
 
     <!-- <script type="module" src="/src/main.js"></script> -->
