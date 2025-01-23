@@ -4,17 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🐞Beetle Debug</title>
-    <link rel="stylesheet" href="src/styles.css">    
+    <link rel="stylesheet" href="src/style.css">    
   </head>
 
   <body>
     <!-- <div id="app"></div> -->
      <h1>🐞Beetle Debug</h1>
 
-        <button id="enter-game">Enter Game</button>
-        <button id="settings">Settings</button>
-        <button id="exit-game">Exit Game</button>
+     <h1>Drag Items and Drop Outside</h1>
+     <p>Drag items from the container. Dropping them outside will delete them.</p>
+   
+     <div id="container">
+       <div class="item" draggable="true" id="item-1">Item 1</div>
+       <div class="item" draggable="true" id="item-2">Item 2</div>
+       <div class="item" draggable="true" id="item-3">Item 3</div>
+     </div>
+   
+     <div id="outside-area"></div>
+  
 
-    <script type="module" src="/src/main.js"></script>
+  <script>
+    const container = document.getElementById('container');
+    const items = document.querySelectorAll('.item');
+
+    items.forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', e.target.id);
+        e.target.classList.add('dragging');
+      });
+
+      item.addEventListener('dragend', (e) => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX;
+        const y = e.clientY;
+
+        // Check if the drop is outside the container
+        if (
+          x < rect.left || 
+          x > rect.right || 
+          y < rect.top || 
+          y > rect.bottom
+        ) {
+          const itemId = e.dataTransfer.getData('text/plain');
+          const element = document.getElementById(itemId);
+          element.remove(); // Remove the item from the DOM
+        }
+      });
+    });
+  </script>
+
+    <!-- <script type="module" src="/src/main.js"></script> -->
   </body>
 </html>
