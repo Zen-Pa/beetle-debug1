@@ -30,20 +30,23 @@
      <p>Drag items from the green container to create copies in the red sockets. Items in the red sockets can be moved between them.</p>
    
      <!-- n-container (original container) -->
-     <div class="n-container">
+      <div class="n-container">
        <div class="item" draggable="true" id="item-1">Item 1</div>
        <div class="item" draggable="true" id="item-2">Item 2</div>
        <div class="item" draggable="true" id="item-3">Item 3</div>
+      </div>
+      
+      <!-- n-container-sockets -->
+      <div class="n-container-socket">
      </div>
-   
-     <!-- n-container-sockets -->
-     <div class="n-container-socket"></div>
      <div class="n-container-socket"></div>
   
 
   <script>
-      // Allow dragging of items in n-container
-      const items = document.querySelectorAll('.item');
+    // Allow dragging of items in n-container
+    const items = document.querySelectorAll('.item');
+    const sockets = document.querySelectorAll('.n-container-socket');
+
     items.forEach(item => {
       item.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', e.target.id); // Store the item's ID
@@ -51,41 +54,64 @@
       });
     });
 
-    // Enable drop functionality for n-container-socket
-    const sockets = document.querySelectorAll('.n-container-socket');
     sockets.forEach(socket => {
       // Allow dragover to enable dropping
       socket.addEventListener('dragover', (e) => {
-        e.preventDefault(); // Required for drop to work
+        e.preventDefault();
       });
 
       // Handle the drop event
       socket.addEventListener('drop', (e) => {
         e.preventDefault();
-        const itemId = e.dataTransfer.getData('text/plain'); // Get the ID of the dragged item
+        const itemId = e.dataTransfer.getData('text/plain'); // Get the dragged item ID
         const source = e.dataTransfer.getData('source'); // Get the source of the dragged item
 
         if (source === 'n-container') {
-          // Create a copy of the dragged item if it came from n-container
+          // Create a copy of the item if dragged from n-container
           const originalItem = document.getElementById(itemId);
           if (originalItem) {
             const newItem = originalItem.cloneNode(true);
-            newItem.id = `${itemId}-copy-${Date.now()}`; // Assign a unique ID to the copied item
-            newItem.draggable = true; // Make the copy draggable
+            newItem.id = `${itemId}-copy-${Date.now()}`; // Assign unique ID to copied item
+            newItem.draggable = true; // Make the new item draggable
             addDragListeners(newItem); // Add drag listeners to the new item
-            socket.appendChild(newItem); // Add the copy to the socket
+            socket.appendChild(newItem); // Add to the socket
           }
         } else if (source === 'n-container-socket') {
-          // Move the dragged item from one socket to another
+          // Move the item between sockets
           const draggedItem = document.getElementById(itemId);
           if (draggedItem) {
-            socket.appendChild(draggedItem); // Append the dragged item to the new socket
+            socket.appendChild(draggedItem);
           }
         }
       });
     });
 
-    // Function to add dragstart listener to dynamically created items
+    // Add dragend listener to delete items dropped outside sockets
+    document.addEventListener('dragend', (e) => {
+      const itemId = e.target.id;
+      const draggedItem = document.getElementById(itemId);
+
+      if (!draggedItem) return;
+
+      // Check if the dragged item was dropped inside any socket
+      const isDroppedInSocket = Array.from(sockets).some(socket => {
+        const rect = socket.getBoundingClientRect();
+        return (
+          e.clientX >= rect.left &&
+          e.clientX <= rect.right &&
+          e.clientY >= rect.top &&
+          e.clientY <= rect.bottom
+        );
+      });
+
+      // Delete the item if dropped outside all sockets
+      if (!isDroppedInSocket && e.dataTransfer.getData('source') === 'n-container-socket') {
+        draggedItem.remove();
+        console.log(`Item ${itemId} deleted because it was dropped outside a socket.`);
+      }
+    });
+
+    // Add drag listeners to dynamically created items
     function addDragListeners(item) {
       item.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', e.target.id); // Store the item's ID
@@ -97,7 +123,7 @@
 
 
 
-    
+
     // // Allow dragging of items in n-container
     // const items = document.querySelectorAll('.item');
     // items.forEach(item => {
