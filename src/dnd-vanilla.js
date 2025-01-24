@@ -1,20 +1,25 @@
 const items = document.querySelectorAll('.item');
 const sockets = document.querySelectorAll('.n-container-socket');
-  const dropSound = new Audio('assets/UIClick_Select Middle 34_RSCPC_USIN.wav');
-  const negativeSound = new Audio('assets/UIClick_Select Thick 13_RSCPC_USIN.wav');
-  const errorSound = new Audio('assets/sound-of-error-beep-hd-267280.mp3');
-  function playDropSound() {
-    dropSound.currentTime = 0; // Reset to the start
-    dropSound.play();
-  }
-  function playNegativeSound() {
-    negativeSound.currentTime = 0; // Reset to the start
-    negativeSound.play();
-  }
-  function playErrorSound() {
-    errorSound.currentTime = 0; // Reset to the start
-    errorSound.play();
-  }
+  const approveSound = new Audio('assets/1/PRE-SUCCESS--ui-click-menu-modern-interface-select-small-02-230475.mp3');
+  const dropSound = new Audio('assets/1/UIClick_Select Thick 13_RSCPC_USIN.wav');
+  const negativeSound = new Audio('assets/1/PRE-DENY--ui-beep-confirmation-228332.mp3');
+  const errorSound = new Audio('assets/1/ui-beep-confirmation-228332.mp3');
+    function playApproveSound() {
+      approveSound.currentTime = 0; // Reset to the start
+      approveSound.play();
+    }
+    function playDropSound() {
+      dropSound.currentTime = 0; // Reset to the start
+      dropSound.play();
+    }
+    function playNegativeSound() {
+      negativeSound.currentTime = 0; // Reset to the start
+      negativeSound.play();
+    }
+    function playErrorSound() {
+      errorSound.currentTime = 0; // Reset to the start
+      errorSound.play();
+    }
 
 // Allow dragging of items in n-container
 items.forEach(item => {
@@ -150,11 +155,64 @@ sockets.forEach((socket) => {
     }
   });
 
-  // Handle dragenter (when an item enters the socket)
+  // // Handle dragenter (when an item enters the socket)
+  // socket.addEventListener('dragenter', (e) => {
+  //   e.preventDefault();
+  //   // socket.classList.add('border-none'); // Initially, no border until logic in dragover sets it
+
+  // // dragenter sounds
+  //   const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+  //   const currentItems = socket.querySelectorAll('.item').length;
+  //   const draggedItemId = e.dataTransfer.getData('text/plain');
+  //   const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
+
+  //   // Check if the socket is full or has a duplicate
+  //   const isFull = currentItems >= maxItems;
+  //   const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+  //     (item) => item.id.startsWith(draggedOriginalId)
+  //   );
+
+  //   const sameSocket = socket.parentElement.id();
+
+  //   if (isFull || hasDuplicate) {
+
+  //     playNegativeSound(); // --------------------------------------------------------------
+  //   } else {
+  //     playApproveSound(); // --------------------------------------------------------------
+  //   }
+  // });
+
   socket.addEventListener('dragenter', (e) => {
     e.preventDefault();
-    socket.classList.add('border-none'); // Initially, no border until logic in dragover sets it
+  
+    // Get the parent container of the dragged item
+    const draggedItemId = e.dataTransfer.getData('text/plain');
+    const draggedItem = document.getElementById(draggedItemId);
+    const parentContainer = draggedItem ? draggedItem.parentElement : null;
+  
+    // Only proceed if the current socket is NOT the parent container
+    if (parentContainer === socket) {
+      return; // Do nothing if the dragged item is entering its own container
+    }
+  
+    // Logic to handle dragenter sounds
+    const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+    const currentItems = socket.querySelectorAll('.item').length;
+    const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
+  
+    // Check if the socket is full or has a duplicate
+    const isFull = currentItems >= maxItems;
+    const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+      (item) => item.id.startsWith(draggedOriginalId)
+    );
+  
+    if (isFull || hasDuplicate) {
+      playNegativeSound(); // Play negative sound if drop is not allowed
+    } else {
+      playApproveSound(); // Play approval sound if drop is allowed
+    }
   });
+  
 
   // Handle dragleave (when the item leaves the socket area)
   socket.addEventListener('dragleave', (e) => {
