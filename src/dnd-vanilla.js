@@ -1,7 +1,10 @@
 const items = document.querySelectorAll('.item');
 const sockets = document.querySelectorAll('.n-container-socket');
-const dropSound = new Audio('/assets/notification-sound-269266.mp3'); 
-
+  const dropSound = new Audio('/assets/notification-sound-269266.mp3'); 
+  function playDropSound() {
+    dropSound.currentTime = 0; // Reset to the start
+    dropSound.play();
+  }
 
 // Allow dragging of items in n-container
 items.forEach(item => {
@@ -65,8 +68,9 @@ sockets.forEach(socket => {
         socket.appendChild(newItem); // Add to the socket
         // dropSound.play(); // Play the drop sound--------------------------------------------------------------
             // Dynamically create and play the sound
-            const dropSound = new Audio('/assets/notification-sound-269266.mp3');
-            dropSound.play();
+            // const dropSound = new Audio('/assets/notification-sound-269266.mp3');
+            // dropSound.play();
+            playDropSound();
       }
     } else if (source === 'n-container-socket') {
       // Move the item between sockets
@@ -75,8 +79,9 @@ sockets.forEach(socket => {
         socket.appendChild(draggedItem);
         // dropSound.play(); // Play the drop sound--------------------------------------------------------------
         // Dynamically create and play the sound
-        const dropSound = new Audio('/assets/notification-sound-269266.mp3');
-        dropSound.play();
+        // const dropSound = new Audio('/assets/notification-sound-269266.mp3');
+        // dropSound.play();
+        playDropSound();
       }
     }
   });
