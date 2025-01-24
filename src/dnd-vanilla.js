@@ -1,9 +1,19 @@
 const items = document.querySelectorAll('.item');
 const sockets = document.querySelectorAll('.n-container-socket');
-  const dropSound = new Audio('/assets/notification-sound-269266.mp3'); 
+  const dropSound = new Audio('assets/UIClick_Select Middle 34_RSCPC_USIN.wav');
+  const negativeSound = new Audio('assets/UIClick_Select Thick 13_RSCPC_USIN.wav');
+  const errorSound = new Audio('assets/sound-of-error-beep-hd-267280.mp3');
   function playDropSound() {
     dropSound.currentTime = 0; // Reset to the start
     dropSound.play();
+  }
+  function playNegativeSound() {
+    negativeSound.currentTime = 0; // Reset to the start
+    negativeSound.play();
+  }
+  function playErrorSound() {
+    errorSound.currentTime = 0; // Reset to the start
+    errorSound.play();
   }
 
 // Allow dragging of items in n-container
@@ -39,7 +49,7 @@ sockets.forEach(socket => {
 
     // Prevent drop if socket is full
     if (currentItems >= maxItems) {
-      // alert('This socket is full.');
+      playErrorSound(); // --------------------------------------------------------------
       return;
     }
 
@@ -53,7 +63,7 @@ sockets.forEach(socket => {
     );
 
     if (isDuplicate) {
-      // alert('This item already exists in this socket.');
+      playErrorSound(); // --------------------------------------------------------------
       return;
     }
 
@@ -65,23 +75,15 @@ sockets.forEach(socket => {
         newItem.id = `${itemId}-copy-${Date.now()}`; // Assign unique ID to copied item
         newItem.draggable = true; // Make the new item draggable
         addDragListeners(newItem); // Add drag listeners to the new item
-        socket.appendChild(newItem); // Add to the socket
-        // dropSound.play(); // Play the drop sound--------------------------------------------------------------
-            // Dynamically create and play the sound
-            // const dropSound = new Audio('/assets/notification-sound-269266.mp3');
-            // dropSound.play();
-            playDropSound();
+        socket.appendChild(newItem); // Add to the socket       
+        playDropSound(); // --------------------------------------------------------------
       }
     } else if (source === 'n-container-socket') {
       // Move the item between sockets
       const draggedItem = document.getElementById(itemId);
       if (draggedItem) {
         socket.appendChild(draggedItem);
-        // dropSound.play(); // Play the drop sound--------------------------------------------------------------
-        // Dynamically create and play the sound
-        // const dropSound = new Audio('/assets/notification-sound-269266.mp3');
-        // dropSound.play();
-        playDropSound();
+        playDropSound(); // --------------------------------------------------------------
       }
     }
   });
@@ -165,6 +167,8 @@ sockets.forEach((socket) => {
     e.preventDefault();
     socket.classList.remove('border-green', 'border-red', 'border-none'); // Reset border on drop
     // dropSound.play(); // Play the drop sound--------------------------------------------------------------
+    // playErrorSound();
+    // playNegativeSound();
   });
 });
 
@@ -173,6 +177,7 @@ document.addEventListener('dragend', () => {
   sockets.forEach((socket) => {
     socket.classList.remove('border-green', 'border-red');
     socket.classList.add('border-none');
+    // playErrorSound(); // --------------------------------------------------------------
     
   });
 });
