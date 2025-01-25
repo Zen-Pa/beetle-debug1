@@ -34,14 +34,14 @@ sockets.forEach(socket => {
   socket.addEventListener('drop', (e) => {
     e.preventDefault();
 
-    const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
-    const currentItems = socket.querySelectorAll('.item').length;
+        const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+        const currentItems = socket.querySelectorAll('.item').length;
 
-    // Prevent drop if socket is full
-    if (currentItems >= maxItems) {
-      playErrorSound(); // --------------------------------------------------------------
-      return;
-    }
+        // Prevent drop if socket is full
+        if (currentItems >= maxItems) {
+          // playErrorSound(); // --------------------------------------------------------------
+          return;
+        }
 
     const itemId = e.dataTransfer.getData('text/plain'); // Get the dragged item ID
     const source = e.dataTransfer.getData('source'); // Get the source of the dragged item
@@ -53,7 +53,7 @@ sockets.forEach(socket => {
     );
 
     if (isDuplicate) {
-      playErrorSound(); // --------------------------------------------------------------
+      // playErrorSound(); // --------------------------------------------------------------
       return;
     }
 
@@ -116,6 +116,9 @@ function addDragListeners(item) {
 
 
 
+
+
+
 sockets.forEach((socket) => {
   // Handle dragenter to style the socket and check conditions
   socket.addEventListener('dragenter', (e) => {
@@ -130,55 +133,17 @@ sockets.forEach((socket) => {
     // Get the parent container of the dragged item
     const parentContainer = draggedItem ? draggedItem.parentElement : null;
 
-    // Skip logic if the dragged item is entering its own parent container
-    if (parentContainer === socket) {
-      return;
-    }
+      // Skip logic if the dragged item is entering its own parent container
+      if (parentContainer === socket) {
+        console.log('Item is entering its own container');
+        return;
+      }
 
-    // Check if the socket is full or has a duplicate
-    const isFull = currentItems >= maxItems;
-    const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
-      (item) => item.id.startsWith(draggedOriginalId)
-    );
-
-    // Play sounds based on conditions
-    if (isFull || hasDuplicate) {
-      playNegativeSound(); // Play negative sound if drop is not allowed
-    } else {
-      playApproveSound(); // Play approval sound if drop is allowed
-    }
-  });
-});
-
-
-
-sockets.forEach((socket) => {
-  // Handle dragenter to style the socket and check conditions
-  socket.addEventListener('dragenter', (e) => {
-    e.preventDefault();
-
-    // Get the parent container of the dragged item
-    const draggedItemId = e.dataTransfer.getData('text/plain');
-    const draggedItem = document.getElementById(draggedItemId);
-    const parentContainer = draggedItem ? draggedItem.parentElement : null;
-  
-    // Only proceed if the current socket is NOT the parent container
-    // if (parentContainer === socket) {
-    //   return; // Do nothing if the dragged item is entering its own container
-    // }
-  
-    // Logic to handle dragenter sounds
-    const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
-    const currentItems = socket.querySelectorAll('.item').length;
-    const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
-
-
-    // Check if the socket is full
-    const isFull = currentItems >= maxItems;
-    // Check if the socket has a duplicate item
-    const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
-      (item) => item.id.startsWith(draggedOriginalId)
-    );
+      // Check if the socket is full or has a duplicate
+      const isFull = currentItems >= maxItems;
+      const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+        (item) => item.id.startsWith(draggedOriginalId)
+      );
 
     // Highlight socket as full or not
     if (isFull) {
@@ -223,6 +188,16 @@ sockets.forEach((socket) => {
   socket.addEventListener('drop', (e) => {
     e.preventDefault();
     socket.classList.remove('border-green', 'border-red', 'border-none'); // Reset border on drop
+
+    // Prevent duplicates in the same socket
+    const isDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+      item => item.id.startsWith(originalItemId)
+    );
+
+    if (!isDuplicate) {
+      playErrorSound(); // --------------------------------------------------------------
+      return;
+    }
   });
 
 });
