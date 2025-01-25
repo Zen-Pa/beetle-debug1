@@ -5,19 +5,22 @@
 
   color-scheme: light dark;
   color: rgba(253, 63, 38, 0.87);
-  background-color: #242424;
+  background-color: var(--background);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --background: #343434;
+
   --primary: rgb(3, 122, 39);
   --secondary: rgb(253, 231, 38);
 
-  --dark: #1a1a1a;
-  --container: #313131;
-  --container1: #494949;
+  --container: #141414;
+  --container1: #141414;
+
+  --button1: #2a2a2a;
 
   --text: #1a1a1a;
 }
@@ -62,7 +65,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--dark);
+  background-color: var(--button1);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -92,8 +95,8 @@ button:focus-visible {
 
 .n-container, .n-container-socket {
   background-color: var(--container);
-  width: 300px;
-  min-height: 300px;
+  min-width: 4em;
+  min-height: 4em;
   /* border: 2px dashed #007bff; */
   margin: 1em;
   padding: 1em;
@@ -101,6 +104,7 @@ button:focus-visible {
   align-items: start;
   align-content: start;
   gap: .2em;
+  border-radius: 4px;
   /* vertical-align: top; */
   
   /* white-space: nowrap; */
@@ -155,6 +159,7 @@ button:focus-visible {
 
 .dnd-container {
   display: flex;
+  
   /* gap: 1em; */
 }
 
