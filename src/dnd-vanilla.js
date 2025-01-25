@@ -34,12 +34,26 @@ sockets.forEach(socket => {
   socket.addEventListener('drop', (e) => {
     e.preventDefault();
 
+    const draggedItemId = e.dataTransfer.getData('text/plain');
+    const draggedItem = document.getElementById(draggedItemId);
+    const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
+
+    // Get the parent container of the dragged item
+    const parentContainer = draggedItem ? draggedItem.parentElement : null;
+
+      // Skip logic if the dragged item is entering its own parent container
+      if (parentContainer === socket) {
+        console.log('Item is entering its own container');
+        return;
+      }
+      
+
         const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
         const currentItems = socket.querySelectorAll('.item').length;
 
         // Prevent drop if socket is full
         if (currentItems >= maxItems) {
-          // playErrorSound(); // --------------------------------------------------------------
+          playErrorSound(); // --------------------------------------------------------------
           return;
         }
 
@@ -53,7 +67,7 @@ sockets.forEach(socket => {
     );
 
     if (isDuplicate) {
-      // playErrorSound(); // --------------------------------------------------------------
+      playErrorSound(); // --------------------------------------------------------------
       return;
     }
 
