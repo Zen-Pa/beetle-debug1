@@ -25,6 +25,8 @@
   --text: #1a1a1a;
 }
 
+
+
     a {
       font-weight: 500;
       color: #646cff;
@@ -94,6 +96,7 @@ button:focus-visible {
 /* drag n drop */
 
 .n-container, .n-container-socket {
+  list-style: none;
   background-color: var(--container);
   min-width: 4em;
   min-height: 4em;
@@ -113,6 +116,7 @@ button:focus-visible {
 
 .n-container {
   /* border-color: #28a745; */
+  max-width: 500px;
 }
 
 .n-container-socket {
@@ -132,21 +136,17 @@ button:focus-visible {
 }
 
 .item {
-  /* width: 80px; */
-  /* height: 80px; */
   background-color: var(--secondary);
   color: var(--text);
-  /* display: flex; */
-  /* align-items: auto; */
   justify-content: center;
   border-radius: 5px;
   cursor: grab; 
 
-  font-size: 1.6em;
+  font-size: 1.2em;
   font-weight: 700;
-  padding: .4em;
-  /* display: inline-block; */
-  }
+  font-style: italic;
+  padding: .2em .8em .4em;
+}
 
 .item:active {
   cursor: grabbing;

@@ -10,19 +10,22 @@
   <body>
     <h1>🐞Beetle Debug</h1>
 
+    <ul id="container"></ul> <!-- Container is a list -->
+    
     <div class="dnd-container">
-      <!-- n-container (original container) -->
-      <div class="n-container">
-        <div class="item" draggable="true" id="item-1">Item 1</div>
-        <div class="item" draggable="true" id="item-2">Item 2</div>
-        <div class="item" draggable="true" id="item-3">Item 33</div>
-      </div>
+      
+      <ul class="n-container">
+         <!-- generated items -->
+      </ul>
+
       
       <!-- n-container-sockets -->
       <div class="n-container-socket" id="ncs1" data-max-items="1"></div>
       <div class="n-container-socket" id="ncs2" data-max-items="2"></div>
     </div>
+    
 
+    <script src="src/notion-container.js"></script>
     <script src="src/dnd-vanilla.js"></script>
 
 
