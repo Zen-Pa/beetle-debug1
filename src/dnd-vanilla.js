@@ -4,6 +4,7 @@ const sockets = document.querySelectorAll('.n-container-socket');
   const dropSound = new Audio('assets/1/SUCCESS--UIClick_Select Thick 13_RSCPC_USIN.wav');
   const negativeSound = new Audio('assets/1/PRE-DENY--ui-beep-confirmation-228332.mp3');
   const errorSound = new Audio('assets/1/DENY--ui-alert-menu-modern-interface-deny-small-230476.mp3');
+  const deleteSound = new Audio('assets/1/DELETE--error-sound-39539.mp3');
     function playApproveSound() {
       approveSound.currentTime = 0; // Reset to the start
       approveSound.play();
@@ -19,6 +20,11 @@ const sockets = document.querySelectorAll('.n-container-socket');
     function playErrorSound() {
       errorSound.currentTime = 0; // Reset to the start
       errorSound.play();
+    }
+    function playDeleteSound() {
+      deleteSound.currentTime = 0; // Reset to the start
+      deleteSound.volume = 0.5; // Reduce volume
+      deleteSound.play();
     }
 
 // Allow dragging of items in n-container
@@ -46,7 +52,7 @@ sockets.forEach(socket => {
         console.log('Item is entering its own container');
         return;
       }
-      
+
 
         const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
         const currentItems = socket.querySelectorAll('.item').length;
@@ -115,6 +121,7 @@ document.addEventListener('dragend', (e) => {
   if (!isDroppedInSocket && e.dataTransfer.getData('source') === 'n-container-socket') {
     draggedItem.remove();
     console.log(`Item ${itemId} deleted because it was dropped outside a socket.`);
+    playDeleteSound(); // --------------------------------------------------------------
   }
 });
 
