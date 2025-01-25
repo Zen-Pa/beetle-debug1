@@ -36,29 +36,10 @@
       color: #535bf2;
     }
 
-/* body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-} */
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
-    /* #app {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 2rem;
-      text-align: center;
-    }
-
-.card {
-  padding: 2em;
-} */
 
 button {
   border-radius: 8px;
@@ -100,7 +81,6 @@ button:focus-visible {
   background-color: var(--container);
   min-width: 4em;
   min-height: 4em;
-  /* border: 2px dashed #007bff; */
   margin: 1em;
   padding: 1em;
   display: flex;
@@ -108,9 +88,6 @@ button:focus-visible {
   align-content: start;
   gap: .2em;
   border-radius: 4px;
-  /* vertical-align: top; */
-  
-  /* white-space: nowrap; */
   flex-wrap: wrap;
 }
 
