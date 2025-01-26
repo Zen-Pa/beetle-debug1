@@ -99,12 +99,12 @@ button:focus-visible {
   cursor: grabbing;
 }
 
-.n-container, .n-container-socket {
+.n-container, .n-s-item {
   list-style: none;
   background-color: var(--container);
   min-width: 4em;
   min-height: 4em;
-  margin: 1em;
+  margin: 8px;
   padding: 1em;
   display: flex;
   align-items: start;
@@ -118,15 +118,29 @@ button:focus-visible {
   /* border-color: #28a745; */
   max-width: 500px;
 }
+.n-container-socket{
+  min-width: 320px;
+  margin: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  /* flex-direction: column; */
+  /* align-content: flex-start; */
+}
 
-.n-container-socket {
+.n-s-item {
   border: 2px dashed transparent; /* Default border */
   transition: border-color 0.3s ease; /* Smooth border color change */
   background-color: var(--container1);
   position: relative;
+  flex-direction: column;
+  text-wrap: wrap;
+}
+.n-s-item > h2 {
+  padding: 0px;
+  margin: 0px;
 }
 
-.n-container-socket[data-max-items]:after {
+.n-s-item[data-max-items]:after {
   content: attr(data-max-items) " max";
   position: absolute;
   bottom: 5px;
@@ -144,14 +158,14 @@ button:focus-visible {
 
 
 /* feedback */
-.n-container-socket.border-green {
+.n-s-item.border-green {
   border-color: #28a745; /* Green border when the item can be dropped */
 }
 
-.n-container-socket.border-red {
+.n-s-item.border-red {
   border-color: #dc3545; /* Red border when drop is not allowed */
 }
 
-.n-container-socket.border-none {
+.n-s-item.border-none {
   border-color: transparent; /* No border when no drag is happening */
 }

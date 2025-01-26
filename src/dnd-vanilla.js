@@ -1,5 +1,5 @@
 const items = document.querySelectorAll('.item');
-const sockets = document.querySelectorAll('.n-container-socket');
+const sockets = document.querySelectorAll('.n-s-item');
   const approveSound = new Audio('assets/1/PRE-SUCCESS--ui-click-menu-modern-interface-select-small-02-230475.mp3');
   const dropSound = new Audio('assets/1/SUCCESS--UIClick_Select Thick 13_RSCPC_USIN.wav');
   const negativeSound = new Audio('assets/1/PRE-DENY--ui-beep-confirmation-228332.mp3');
@@ -88,7 +88,7 @@ sockets.forEach(socket => {
         socket.appendChild(newItem); // Add to the socket       
         playDropSound(); // --------------------------------------------------------------
       }
-    } else if (source === 'n-container-socket') {
+    } else if (source === 'n-s-item') {
       // Move the item between sockets
       const draggedItem = document.getElementById(itemId);
       if (draggedItem) {
@@ -118,7 +118,7 @@ document.addEventListener('dragend', (e) => {
   });
 
   // Delete the item if dropped outside all sockets
-  if (!isDroppedInSocket && e.dataTransfer.getData('source') === 'n-container-socket') {
+  if (!isDroppedInSocket && e.dataTransfer.getData('source') === 'n-s-item') {
     draggedItem.remove();
     console.log(`Item ${itemId} deleted because it was dropped outside a socket.`);
     playDeleteSound(); // --------------------------------------------------------------
@@ -129,7 +129,7 @@ document.addEventListener('dragend', (e) => {
 function addDragListeners(item) {
   item.addEventListener('dragstart', (e) => {
     e.dataTransfer.setData('text/plain', e.target.id); // Store the item's ID
-    e.dataTransfer.setData('source', 'n-container-socket'); // Identify source container
+    e.dataTransfer.setData('source', 'n-s-item'); // Identify source container
   });
 }
 

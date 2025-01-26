@@ -39,23 +39,23 @@ scalars.forEach((scalar) => {
     scalarRow.appendChild(group);
 });
 
-            // Handle button clicks to increase/decrease fill
-            const scalarsFill = document.querySelectorAll(".scalar .fill");
+            // // Handle button clicks to increase/decrease fill
+            // const scalarsFill = document.querySelectorAll(".scalar .fill");
 
-            increaseButton.addEventListener("click", () => {
-                scalarsFill.forEach((fill) => {
-                const currentWidth = parseFloat(fill.style.width);
-                if (currentWidth < 100) {
-                    fill.style.width = `${currentWidth + 10}%`; // Increase fill by 10%
-                }
-                });
-            });
+            // increaseButton.addEventListener("click", () => {
+            //     scalarsFill.forEach((fill) => {
+            //     const currentWidth = parseFloat(fill.style.width);
+            //     if (currentWidth < 100) {
+            //         fill.style.width = `${currentWidth + 10}%`; // Increase fill by 10%
+            //     }
+            //     });
+            // });
 
-            decreaseButton.addEventListener("click", () => {
-                scalarsFill.forEach((fill) => {
-                const currentWidth = parseFloat(fill.style.width);
-                if (currentWidth > 0) {
-                    fill.style.width = `${currentWidth - 10}%`; // Decrease fill by 10%
-                }
-                });
-            });
+            // decreaseButton.addEventListener("click", () => {
+            //     scalarsFill.forEach((fill) => {
+            //     const currentWidth = parseFloat(fill.style.width);
+            //     if (currentWidth > 0) {
+            //         fill.style.width = `${currentWidth - 10}%`; // Decrease fill by 10%
+            //     }
+            //     });
+            // });

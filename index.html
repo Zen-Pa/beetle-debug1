@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="src/style.css">   
 
     <style>
-    body {
+    /* body {
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
-    }
+    } */
 
     .skull-row {
       display: flex;
@@ -44,8 +44,8 @@
 .scalar-row {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 20px; /* Spacing between scalars */
+      align-items: flex-start;
+      gap: 8px; /* Spacing between scalars */
     }
 
     .scalar-group {
@@ -99,61 +99,63 @@
     <div class="skull-row" id="skullRow">
       <!-- 10 skulls will be dynamically added here -->
     </div>
-    <button id="skullButton">Press Me</button>
+    <button id="skullButton">Become beetle dead!</button>
+    
+          <div class="dnd-container">
+            
+            <ul class="n-container">
+              <!-- generated items -->
+            </ul>
+          
+            <ul class="n-container-socket" id="ncsList"></ul> <!-- List container -->
+            <!-- n-container-sockets -->
+          </div>
 
 <!-- scalars -->
     <div class="scalar-row" id="scalarRow">
       <!-- Scalar groups (icon + scalar) will be dynamically added here -->
     </div>
-
+<!-- 
     <button id="increaseButton">Increase Fill</button>
-    <button id="decreaseButton" style="margin-left: 10px;">Decrease Fill</button>
+    <button id="decreaseButton" style="margin-left: 10px;">Decrease Fill</button> -->
 
 
 
 
 
 
-    <ul id="container"></ul> <!-- Container is a list -->
-    
-    <div class="dnd-container">
-      
-      <ul class="n-container">
-         <!-- generated items -->
-      </ul>
-
-      <ul id="ncsList"></ul> <!-- List container -->
-      <!-- n-container-sockets -->
-      <!-- <div class="n-container-socket" id="ncs1" data-max-items="1"></div>
-      <div class="n-container-socket" id="ncs2" data-max-items="2"></div> -->
-    </div>
+          
 
     <script>
         // String array
         const socketItems = ["Mine", "Miner", "Mineum", "Mishe", "Garden", "Gardener", "Garum", "Garshe"];
         // Corresponding data-max-items values
         const maxSocketItems = [2, 4, 1, 2, 2, 4, 2, 1];
-            // Target container
-            const ncs = document.getElementById("ncsList");
 
-            // Generate list items dynamically
-          socketItems.forEach((socketItem, index) => {
+        // Target container
+        const ncs = document.getElementById("ncsList");
+
+        // Generate list items dynamically
+        socketItems.forEach((socketItem, index) => {
           const li = document.createElement("li"); // Create <li>
 
-            // Set attributes
-            li.className = "n-container-socket";
-            li.id = `ncs${index + 1}`;
-            li.setAttribute("data-max-items", maxSocketItems[index]);
+          // Set attributes
+          li.className = "n-s-item";
+          li.id = `ncs${index + 1}`;
+          li.setAttribute("data-max-items", maxSocketItems[index]);
 
-            // Set the text content to the current item
-            li.textContent = socketItem;
+          // Create <h2> and set its content
+          const h2 = document.createElement("h2");
+          h2.textContent = socketItem;
 
-            // Append to the container
-            ncs.appendChild(li);
-          });
+          // Append the <h2> to the <li>
+          li.appendChild(h2);
+
+          // Append the <li> to the container
+          ncs.appendChild(li);
+        });
     </script>
     
-
     <script src="src/notion-container.js"></script>
     <script src="src/dnd-vanilla.js"></script>
     <script src="src/skull.js"></script>
