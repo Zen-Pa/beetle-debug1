@@ -89,7 +89,7 @@
       width: 50%; /* Initial fill percentage */
       background-color: #007bff; /* Fill color */
       transition: width 0.3s ease; /* Smooth transitions */
-    }
+    } 
     </style> 
   </head>
 
@@ -109,9 +109,7 @@
     <button id="increaseButton">Increase Fill</button>
     <button id="decreaseButton" style="margin-left: 10px;">Decrease Fill</button>
 
-    <script>
-        
-    </script>
+
 
 
 
@@ -124,17 +122,43 @@
          <!-- generated items -->
       </ul>
 
-      
+      <ul id="ncsList"></ul> <!-- List container -->
       <!-- n-container-sockets -->
-      <div class="n-container-socket" id="ncs1" data-max-items="1"></div>
-      <div class="n-container-socket" id="ncs2" data-max-items="2"></div>
+      <!-- <div class="n-container-socket" id="ncs1" data-max-items="1"></div>
+      <div class="n-container-socket" id="ncs2" data-max-items="2"></div> -->
     </div>
+
+    <script>
+        // String array
+        const socketItems = ["Mine", "Miner", "Mineum", "Mishe", "Garden", "Gardener", "Garum", "Garshe"];
+        // Corresponding data-max-items values
+        const maxSocketItems = [2, 4, 1, 2, 2, 4, 2, 1];
+            // Target container
+            const ncs = document.getElementById("ncsList");
+
+            // Generate list items dynamically
+          socketItems.forEach((socketItem, index) => {
+          const li = document.createElement("li"); // Create <li>
+
+            // Set attributes
+            li.className = "n-container-socket";
+            li.id = `ncs${index + 1}`;
+            li.setAttribute("data-max-items", maxSocketItems[index]);
+
+            // Set the text content to the current item
+            li.textContent = socketItem;
+
+            // Append to the container
+            ncs.appendChild(li);
+          });
+    </script>
     
 
     <script src="src/notion-container.js"></script>
     <script src="src/dnd-vanilla.js"></script>
     <script src="src/skull.js"></script>
     <script src="src/scalars.js"></script>
+    <!-- <script srs="src/n-container-sockets.js"></script> -->
 
 
 

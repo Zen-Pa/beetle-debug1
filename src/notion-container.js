@@ -40,3 +40,4 @@ strings.forEach((str, index) => {
     // Append the item to the list
     container.appendChild(listItem);
 });
+
