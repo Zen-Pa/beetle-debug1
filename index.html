@@ -3,12 +3,172 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🐞Beetle Debug</title>
-    <link rel="stylesheet" href="src/style.css">    
+    <title>🐞 Beetle Debug 💀</title>
+    <link rel="stylesheet" href="src/style.css">   
+
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .skull-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 1em;
+      padding: 1em;
+      font-size: 2rem; /* Skull size */
+      background-color: #0000009f; /* Light gray background */
+      border-radius: 8px; /* Rounded corners */
+    }
+
+    .skull {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2em;
+      height: 2em;
+      background-color: black; /* Filled skull color */
+      color: white; /* Skull symbol color */
+      border-radius: 50%; /* Circular shape */
+    }
+
+    .skull.unfilled {
+      background-color: rgb(151, 23, 23); /* Unfilled skull color */
+    }
+
+    
+/* scalars */
+.scalar-row {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px; /* Spacing between scalars */
+    }
+
+    .scalar-group {
+      display: flex;
+      align-items: center;
+      gap: 15px; /* Spacing between icon and scalar */
+    }
+
+    /* Icon Circle */
+    .icon-circle {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #007bff; /* Icon outline color */
+      background-color: #007bff; /* Icon fill color */
+      color: white; /* Icon color */
+      border-radius: 50%; /* Circular shape */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem; /* Icon size */
+      flex-shrink: 0; /* Prevent shrinking when the scalar scales */
+    }
+
+    /* Scalar Bar */
+    .scalar {
+      width: 300px; /* Scalar width */
+      height: 10px; /* Scalar thickness (thin) */
+      background-color: #ddd; /* Empty scalar color */
+      border-radius: 5px; /* Rounded edges */
+      overflow: hidden; /* Clip overflow */
+      position: relative;
+    }
+
+    .scalar .fill {
+      height: 100%;
+      width: 50%; /* Initial fill percentage */
+      background-color: #007bff; /* Fill color */
+      transition: width 0.3s ease; /* Smooth transitions */
+    }
+    </style> 
   </head>
 
   <body>
-    <h1>🐞Beetle Debug</h1>
+    <h1>🐞 Beetle Debug 💀</h1>
+
+    <div class="skull-row" id="skullRow">
+      <!-- 10 skulls will be dynamically added here -->
+    </div>
+    <button id="skullButton">Press Me</button>
+
+<!-- scalars -->
+    <div class="scalar-row" id="scalarRow">
+      <!-- Scalar groups (icon + scalar) will be dynamically added here -->
+    </div>
+    <button id="increaseButton">Increase Fill</button>
+    <button id="decreaseButton" style="margin-left: 10px;">Decrease Fill</button>
+
+    <script>
+            const scalarRow = document.getElementById("scalarRow");
+    const increaseButton = document.getElementById("increaseButton");
+    const decreaseButton = document.getElementById("decreaseButton");
+
+    // Scalar data with icons
+    const scalars = [
+      { icon: "🍎", color: "#ff4d4d" }, // Hunger (red)
+      { icon: "💧", color: "#4db8ff" }, // Thirst (blue)
+      { icon: "⚡", color: "#ffdb4d" }, // Stamina (yellow)
+      { icon: "⌚", color: "#808080" }, // Time (gray)
+      { icon: "📩", color: "#4dff88" }, // Report (green)
+    ];
+
+    // Initialize scalars
+    scalars.forEach((scalar) => {
+      // Create the scalar group
+      const group = document.createElement("div");
+      group.classList.add("scalar-group");
+
+      // Create the icon circle
+      const iconCircle = document.createElement("div");
+      iconCircle.classList.add("icon-circle");
+      iconCircle.textContent = scalar.icon;
+      iconCircle.style.borderColor = scalar.color; // Outline color
+      iconCircle.style.backgroundColor = scalar.color; // Fill color
+
+      // Create the scalar bar
+      const scalarBar = document.createElement("div");
+      scalarBar.classList.add("scalar");
+
+      const fillBar = document.createElement("div");
+      fillBar.classList.add("fill");
+      fillBar.style.backgroundColor = scalar.color; // Fill color
+      scalarBar.appendChild(fillBar);
+
+      // Append elements
+      group.appendChild(iconCircle);
+      group.appendChild(scalarBar);
+      scalarRow.appendChild(group);
+    });
+
+    // Handle button clicks to increase/decrease fill
+    const scalarsFill = document.querySelectorAll(".scalar .fill");
+
+    increaseButton.addEventListener("click", () => {
+      scalarsFill.forEach((fill) => {
+        const currentWidth = parseFloat(fill.style.width);
+        if (currentWidth < 100) {
+          fill.style.width = `${currentWidth + 10}%`; // Increase fill by 10%
+        }
+      });
+    });
+
+    decreaseButton.addEventListener("click", () => {
+      scalarsFill.forEach((fill) => {
+        const currentWidth = parseFloat(fill.style.width);
+        if (currentWidth > 0) {
+          fill.style.width = `${currentWidth - 10}%`; // Decrease fill by 10%
+        }
+      });
+    });
+    </script>
+
+
+
 
     <ul id="container"></ul> <!-- Container is a list -->
     
@@ -27,11 +187,9 @@
 
     <script src="src/notion-container.js"></script>
     <script src="src/dnd-vanilla.js"></script>
+    <script src="src/skull.js"></script>
 
 
-  <script>
-
-  </script>
 
   </body>
 </html>

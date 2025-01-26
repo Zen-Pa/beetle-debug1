@@ -9,7 +9,7 @@ const strings = [
     "god-incarnation of Mine", 
     "joyful defender of the family", 
     "hunger", 
-    "thread", 
+    "thread💀", 
     "hungry", 
     "threat", 
     "hungry", 
