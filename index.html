@@ -17,7 +17,7 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin: 1em;
+      /* margin: 1em; */
       padding: 1em;
       font-size: 2rem; /* Skull size */
       background-color: #0000009f; /* Light gray background */
@@ -51,7 +51,7 @@
     .scalar-group {
       display: flex;
       align-items: center;
-      background-color: rgb(20, 20, 20);
+      background-color: rgba(255, 255, 255, 0.042);
       border-radius: 64px;
       padding: .4em;
     }
@@ -99,7 +99,9 @@
     <div class="skull-row" id="skullRow">
       <!-- 10 skulls will be dynamically added here -->
     </div>
-    <button id="skullButton">Become beetle dead!</button>
+    <div class="container-card">
+      <button id="skullButton">Become beetle dead!</button>
+    </div>
     
           <div class="dnd-container">
             
@@ -112,19 +114,29 @@
           </div>
 
 <!-- scalars -->
-    <div class="scalar-row" id="scalarRow">
-      <!-- Scalar groups (icon + scalar) will be dynamically added here -->
+    <div class="container-card">
+        <div class="scalar-row" id="scalarRow">
+          <!-- Scalar groups (icon + scalar) will be dynamically added here -->
+        </div>
     </div>
 <!-- 
     <button id="increaseButton">Increase Fill</button>
     <button id="decreaseButton" style="margin-left: 10px;">Decrease Fill</button> -->
 
+<!-- action buttons -->
+  <div class="buttons-container">
+    <button>Play</button>
+    <button>Pause</button>
+    <button>Travel</button>
+    <button>Rest</button>
+    <button>Find provision</button>
+    <button>Drink</button>
+    <button>Eat</button>
+    <button>Get report</button>
+  </div>
 
 
 
-
-
-          
 
     <script>
         // String array

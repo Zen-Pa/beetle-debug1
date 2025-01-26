@@ -15,7 +15,7 @@
   --background: #343434;
 
   --primary: rgb(3, 122, 39);
-  --secondary: rgb(253, 231, 38);
+  --secondary: rgb(247, 230, 79);
 
   --container: #141414;
   --container1: #141414;
@@ -25,16 +25,12 @@
   --text: #1a1a1a;
 }
 
-
-
-    a {
-      font-weight: 500;
-      color: #646cff;
-      text-decoration: inherit;
-    }
-    a:hover {
-      color: #535bf2;
-    }
+body {
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
 
 h1 {
   font-size: 3.2em;
@@ -78,6 +74,24 @@ button:focus-visible {
 
 /* drag n drop */
 
+.container-card {
+  background-color: var(--container);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1em;
+  gap: 8px;
+  border-radius: 8px
+}
+
+.buttons-container {
+  background-color: var(--container);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1em;
+  gap: 8px;
+  border-radius: 8px;
+}
+
 .dnd-container {
   display: flex;
   align-items: start;
@@ -104,7 +118,6 @@ button:focus-visible {
   background-color: var(--container);
   min-width: 4em;
   min-height: 4em;
-  margin: 8px;
   padding: 1em;
   display: flex;
   align-items: start;
@@ -117,6 +130,7 @@ button:focus-visible {
 .n-container {
   /* border-color: #28a745; */
   max-width: 500px;
+  margin: 0px;
 }
 .n-container-socket{
   min-width: 320px;
@@ -134,6 +148,8 @@ button:focus-visible {
   position: relative;
   flex-direction: column;
   text-wrap: wrap;
+  margin: 0px 8px 8px 0px;
+  /* gap: 4px; */
 }
 .n-s-item > h2 {
   padding: 0px;
