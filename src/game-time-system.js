@@ -21,24 +21,26 @@ class GameTimeSystem {
       // Timer
       this.interval = null;
     }
+
+
   
-    // Start or resume the game loop
-    play() {
-      if (!this.isPaused) return; // Already running
-      this.isPaused = false;
-  
-      this.interval = setInterval(() => {
-        this.nextEvent();
-      }, 2000 / this.speedMultiplier);
-    }
-  
-    // Pause the game loop
-    pause() {
-      if (this.isPaused) return; // Already paused
-      this.isPaused = true;
-  
-      clearInterval(this.interval);
-    }
+              // Start or resume the game loop
+              play() {
+                if (!this.isPaused) return; // Already running
+                this.isPaused = false;
+            
+                this.interval = setInterval(() => {
+                  this.nextEvent();
+                }, 2000 / this.speedMultiplier);
+              }
+            
+              // Pause the game loop
+              pause() {
+                if (this.isPaused) return; // Already paused
+                this.isPaused = true;
+            
+                clearInterval(this.interval);
+              }
   
     // Adjust game speed
     setSpeed(speedMultiplier) {
@@ -49,39 +51,42 @@ class GameTimeSystem {
       }
     }
   
-    // Advance to the next event in the day cycle
-    nextEvent() {
-      // Trigger game loop logic
-      const currentEvent = this.cycle[this.currentCycleIndex];
-      this.executeGameLogic(currentEvent);
+              // Advance to the next event in the day cycle
+              nextEvent() {
+                // Trigger game loop logic
+                                const currentEvent = this.cycle[this.currentCycleIndex];
+                this.executeGameLogic(currentEvent);
+            
+                        // Move to the next event
+                        this.currentCycleIndex = (this.currentCycleIndex + 1) % this.cycle.length;
+                    
+                        // Check if a full day (morning -> night) has passed
+                        if (this.currentCycleIndex === 0) {
+                          this.dayCount++;
+                      }
+              }
   
-      // Move to the next event
-      this.currentCycleIndex = (this.currentCycleIndex + 1) % this.cycle.length;
-  
-      // Check if a full day (morning -> night) has passed
-      if (this.currentCycleIndex === 0) {
-        this.dayCount++;
-      }
+                          // Execute game loop logic for the current event
+                    executeGameLogic(event) {
+                          console.log(`---------------------------------------------`);
+                          console.log(`Day: ${this.dayCount}, ${event}`);
+                      
+                          // Example: Increment reactive `beetleDead`
+                          this.beetleDead++;
+                          this.reactiveBeetleDead(this.beetleDead);
+                      
+                          // Check Work/Joy day logic
+                          if (this.dayCount % (this.workDays + 1) === 0) {
+                            console.log('It’s a joy day!');
+                          } else {
+                            console.log('It’s a working day.');
+                          }
+                    }
     }
   
-    // Execute game loop logic for the current event
-    executeGameLogic(event) {
-      console.log(`---------------------------------------------`);
-      console.log(`Event: ${event}, Day Count: ${this.dayCount}`);
-  
-      // Example: Increment reactive `beetleDead`
-      this.beetleDead++;
-      this.reactiveBeetleDead(this.beetleDead);
-  
-      // Check Work/Joy day logic
-      if (this.dayCount % (this.workDays + 1) === 0) {
-        console.log('It’s a joy day!');
-      } else {
-        console.log('It’s a working day.');
-      }
-    }
-  }
-  
+
+
+
   // === Example Usage ===
   const game = new GameTimeSystem();
   
