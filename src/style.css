@@ -81,6 +81,7 @@ button:focus-visible {
   padding: 1em;
   gap: 8px;
   border-radius: 8px;
+}
 
 .container-card {
   background-color: var(--container);
@@ -89,7 +90,6 @@ button:focus-visible {
   padding: 1em;
   gap: 8px;
   border-radius: 8px
-}
 }
 
 .dnd-container {

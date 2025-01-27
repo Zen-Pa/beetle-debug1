@@ -26,105 +26,6 @@ const sockets = document.querySelectorAll('.n-s-item');
       deleteSound.volume = 0.5; // Reduce volume
       deleteSound.play();
     }
-
-// Allow dragging of items in n-container
-items.forEach(item => {
-  item.addEventListener('dragstart', (e) => {
-    e.dataTransfer.setData('text/plain', e.target.id); // Store the item's ID
-    e.dataTransfer.setData('source', 'n-container'); // Identify source container
-  });
-});
-
-sockets.forEach(socket => {
-  // Handle the drop event
-  socket.addEventListener('drop', (e) => {
-    e.preventDefault();
-
-    const draggedItemId = e.dataTransfer.getData('text/plain');
-    const draggedItem = document.getElementById(draggedItemId);
-    const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
-
-    // Get the parent container of the dragged item
-    const parentContainer = draggedItem ? draggedItem.parentElement : null;
-
-      // Skip logic if the dragged item is entering its own parent container
-      if (parentContainer === socket) {
-        console.log('Item is entering its own container');
-        return;
-      }
-
-
-        const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
-        const currentItems = socket.querySelectorAll('.item').length;
-
-        // Prevent drop if socket is full
-        if (currentItems >= maxItems) {
-          playErrorSound(); // --------------------------------------------------------------
-          return;
-        }
-
-    const itemId = e.dataTransfer.getData('text/plain'); // Get the dragged item ID
-    const source = e.dataTransfer.getData('source'); // Get the source of the dragged item
-    const originalItemId = itemId.replace(/-copy-\d+$/, ''); // Extract the original item ID (for duplicates check)
-
-    // Prevent duplicates in the same socket
-    const isDuplicate = Array.from(socket.querySelectorAll('.item')).some(
-      item => item.id.startsWith(originalItemId)
-    );
-
-    if (isDuplicate) {
-      playErrorSound(); // --------------------------------------------------------------
-      return;
-    }
-
-    if (source === 'n-container') {
-      // Create a copy of the item if dragged from n-container
-      const originalItem = document.getElementById(itemId);
-      if (originalItem) {
-        const newItem = originalItem.cloneNode(true);
-        newItem.id = `${itemId}-copy-${Date.now()}`; // Assign unique ID to copied item
-        newItem.draggable = true; // Make the new item draggable
-        addDragListeners(newItem); // Add drag listeners to the new item
-        socket.appendChild(newItem); // Add to the socket       
-        playDropSound(); // --------------------------------------------------------------
-      }
-    } else if (source === 'n-s-item') {
-      // Move the item between sockets
-      const draggedItem = document.getElementById(itemId);
-      if (draggedItem) {
-        socket.appendChild(draggedItem);
-        playDropSound(); // --------------------------------------------------------------
-      }
-    }
-  });
-});
-
-// Add dragend listener to delete items dropped outside sockets
-document.addEventListener('dragend', (e) => {
-  const itemId = e.target.id;
-  const draggedItem = document.getElementById(itemId);
-
-  if (!draggedItem) return;
-
-  // Check if the dragged item was dropped inside any socket
-  const isDroppedInSocket = Array.from(sockets).some(socket => {
-    const rect = socket.getBoundingClientRect();
-    return (
-      e.clientX >= rect.left &&
-      e.clientX <= rect.right &&
-      e.clientY >= rect.top &&
-      e.clientY <= rect.bottom
-    );
-  });
-
-  // Delete the item if dropped outside all sockets
-  if (!isDroppedInSocket && e.dataTransfer.getData('source') === 'n-s-item') {
-    draggedItem.remove();
-    console.log(`Item ${itemId} deleted because it was dropped outside a socket.`);
-    playDeleteSound(); // --------------------------------------------------------------
-  }
-});
-
 // Add drag listeners to dynamically created items
 function addDragListeners(item) {
   item.addEventListener('dragstart', (e) => {
@@ -134,11 +35,13 @@ function addDragListeners(item) {
 }
 
 
-
-
-
-
-
+// Allow dragging of items in n-container
+items.forEach(item => {
+      item.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', e.target.id); // Store the item's ID
+        e.dataTransfer.setData('source', 'n-container'); // Identify source container
+      });
+});
 
 sockets.forEach((socket) => {
   // Handle dragenter to style the socket and check conditions
@@ -150,21 +53,19 @@ sockets.forEach((socket) => {
     const draggedItemId = e.dataTransfer.getData('text/plain');
     const draggedItem = document.getElementById(draggedItemId);
     const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
-
-    // Get the parent container of the dragged item
     const parentContainer = draggedItem ? draggedItem.parentElement : null;
 
-      // Skip logic if the dragged item is entering its own parent container
-      if (parentContainer === socket) {
-        console.log('Item is entering its own container');
-        return;
-      }
+    // Skip logic if the dragged item is entering its own parent container
+    if (parentContainer === socket) {
+      console.log('Item is entering its own container');
+      return;
+    }
 
-      // Check if the socket is full or has a duplicate
-      const isFull = currentItems >= maxItems;
-      const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
-        (item) => item.id.startsWith(draggedOriginalId)
-      );
+    // Check if the socket is full or has a duplicate
+    const isFull = currentItems >= maxItems;
+    const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+      (item) => item.id.startsWith(draggedOriginalId)
+    );
 
     // Highlight socket as full or not
     if (isFull) {
@@ -177,17 +78,16 @@ sockets.forEach((socket) => {
     if (isFull || hasDuplicate) {
       socket.classList.add('border-red');
       socket.classList.remove('border-green', 'border-none');
-      playNegativeSound();  // --------------------------------------------------------------
+      playNegativeSound(); // Play error sound if the drop is invalid
     } else {
       socket.classList.add('border-green');
       socket.classList.remove('border-red', 'border-none');
-      playApproveSound();  // --------------------------------------------------------------
+      playApproveSound(); // Play approve sound if the drop is valid
     }
   });
 
   // Handle dragleave to reset socket styling
   socket.addEventListener('dragleave', (e) => {
-    // Reset all styles on dragleave
     socket.classList.add('border-none');
     socket.classList.remove('border-green', 'border-red', 'socket-full');
   });
@@ -197,6 +97,67 @@ sockets.forEach((socket) => {
     e.preventDefault();
   });
 
+  // Handle the drop event
+  socket.addEventListener('drop', (e) => {
+    e.preventDefault();
+
+    const draggedItemId = e.dataTransfer.getData('text/plain');
+    const draggedItem = document.getElementById(draggedItemId);
+    const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
+    const parentContainer = draggedItem ? draggedItem.parentElement : null;
+
+    // Skip logic if the dragged item is entering its own parent container
+    if (parentContainer === socket) {
+      console.log('Item is entering its own container');
+      return;
+    }
+
+    const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+    const currentItems = socket.querySelectorAll('.item').length;
+
+    // Prevent drop if socket is full
+    if (currentItems >= maxItems) {
+      playErrorSound(); // Play error sound if the socket is full
+      return;
+    }
+
+    // Prevent duplicates in the same socket
+    const isDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+      (item) => item.id.startsWith(draggedOriginalId)
+    );
+
+    if (isDuplicate) {
+      playErrorSound(); // Play error sound if the item is already in the socket
+      return;
+    }
+
+    // Handle the drop from different sources
+    const source = e.dataTransfer.getData('source');
+
+    if (source === 'n-container') {
+      // Create a copy of the item if dragged from n-container
+      const originalItem = document.getElementById(draggedItemId);
+      if (originalItem) {
+        const newItem = originalItem.cloneNode(true);
+        newItem.id = `${draggedItemId}-copy-${Date.now()}`; // Assign unique ID to copied item
+        newItem.draggable = true; // Make the new item draggable
+        addDragListeners(newItem); // Add drag listeners to the new item
+        socket.appendChild(newItem); // Add to the socket
+        playDropSound(); // Play sound for successful drop
+      }
+    } else if (source === 'n-s-item') {
+      // Move the item between sockets
+      if (draggedItem) {
+        socket.appendChild(draggedItem);
+        playDropSound(); // Play sound for successful drop
+      }
+    }
+
+    // Reset the styling of the socket
+    socket.classList.add('border-none');
+    socket.classList.remove('border-green', 'border-red', 'socket-full');
+  });
+
   // Reset all socket styles globally on dragend
   document.addEventListener('dragend', () => {
     sockets.forEach((socket) => {
@@ -204,21 +165,178 @@ sockets.forEach((socket) => {
       socket.classList.remove('border-green', 'border-red', 'socket-full');
     });
   });
+});
 
-  // Handle drop (to finalize the drop and reset borders)
-  socket.addEventListener('drop', (e) => {
-    e.preventDefault();
-    socket.classList.remove('border-green', 'border-red', 'border-none'); // Reset border on drop
 
-    // Prevent duplicates in the same socket
-    const isDuplicate = Array.from(socket.querySelectorAll('.item')).some(
-      item => item.id.startsWith(originalItemId)
-    );
+// sockets.forEach(socket => {
+//     // Handle the drop event
+//     socket.addEventListener('drop', (e) => {
+//       e.preventDefault();
 
-    if (!isDuplicate) {
-      playErrorSound(); // --------------------------------------------------------------
-      return;
+//       const draggedItemId = e.dataTransfer.getData('text/plain');
+//       const draggedItem = document.getElementById(draggedItemId);
+//       const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
+
+//       // Get the parent container of the dragged item
+//       const parentContainer = draggedItem ? draggedItem.parentElement : null;
+
+//         // Skip logic if the dragged item is entering its own parent container
+//         if (parentContainer === socket) {
+//           console.log('Item is entering its own container');
+//           return;
+//         }
+
+
+//           const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+//           const currentItems = socket.querySelectorAll('.item').length;
+
+//           // Prevent drop if socket is full
+//           if (currentItems >= maxItems) {
+//             playErrorSound(); // --------------------------------------------------------------
+//             return;
+//           }
+
+//       const itemId = e.dataTransfer.getData('text/plain'); // Get the dragged item ID
+//       const source = e.dataTransfer.getData('source'); // Get the source of the dragged item
+//       const originalItemId = itemId.replace(/-copy-\d+$/, ''); // Extract the original item ID (for duplicates check)
+
+//       // Prevent duplicates in the same socket
+//       const isDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+//         item => item.id.startsWith(originalItemId)
+//       );
+
+//       if (isDuplicate) {
+//         playErrorSound(); // --------------------------------------------------------------
+//         return;
+//       }
+
+//       if (source === 'n-container') {
+//         // Create a copy of the item if dragged from n-container
+//         const originalItem = document.getElementById(itemId);
+//         if (originalItem) {
+//           const newItem = originalItem.cloneNode(true);
+//           newItem.id = `${itemId}-copy-${Date.now()}`; // Assign unique ID to copied item
+//           newItem.draggable = true; // Make the new item draggable
+//           addDragListeners(newItem); // Add drag listeners to the new item
+//           socket.appendChild(newItem); // Add to the socket       
+//           playDropSound(); // --------------------------------------------------------------
+//         }
+//       } else if (source === 'n-s-item') {
+//         // Move the item between sockets
+//         const draggedItem = document.getElementById(itemId);
+//         if (draggedItem) {
+//           socket.appendChild(draggedItem);
+//           playDropSound(); // --------------------------------------------------------------
+//         }
+//       }
+//     });
+// }); 
+
+// sockets.forEach((socket) => {
+//     // Handle dragenter to style the socket and check conditions
+//     socket.addEventListener('dragenter', (e) => {
+//       e.preventDefault();
+
+//       const maxItems = parseInt(socket.getAttribute('data-max-items'), 10);
+//       const currentItems = socket.querySelectorAll('.item').length;
+//       const draggedItemId = e.dataTransfer.getData('text/plain');
+//       const draggedItem = document.getElementById(draggedItemId);
+//       const draggedOriginalId = draggedItemId.replace(/-copy-\d+$/, '');
+
+//       // Get the parent container of the dragged item
+//       const parentContainer = draggedItem ? draggedItem.parentElement : null;
+
+//         // Skip logic if the dragged item is entering its own parent container
+//         if (parentContainer === socket) {
+//           console.log('Item is entering its own container');
+//           return;
+//         }
+
+//         // Check if the socket is full or has a duplicate
+//         const isFull = currentItems >= maxItems;
+//         const hasDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+//           (item) => item.id.startsWith(draggedOriginalId)
+//         );
+
+//       // Highlight socket as full or not
+//       if (isFull) {
+//         socket.classList.add('socket-full');
+//       } else {
+//         socket.classList.remove('socket-full');
+//       }
+
+//       // Set the border dynamically based on conditions
+//       if (isFull || hasDuplicate) {
+//         socket.classList.add('border-red');
+//         socket.classList.remove('border-green', 'border-none');
+//         playNegativeSound();  // --------------------------------------------------------------
+//       } else {
+//         socket.classList.add('border-green');
+//         socket.classList.remove('border-red', 'border-none');
+//         playApproveSound();  // --------------------------------------------------------------
+//       }
+//     });
+
+//     // Handle dragleave to reset socket styling
+//     socket.addEventListener('dragleave', (e) => {
+//       // Reset all styles on dragleave
+//       socket.classList.add('border-none');
+//       socket.classList.remove('border-green', 'border-red', 'socket-full');
+//     });
+
+//     // Prevent default dragover behavior (required for dropping to work)
+//     socket.addEventListener('dragover', (e) => {
+//       e.preventDefault();
+//     });
+
+//     // Reset all socket styles globally on dragend
+//     document.addEventListener('dragend', () => {
+//       sockets.forEach((socket) => {
+//         socket.classList.add('border-none');
+//         socket.classList.remove('border-green', 'border-red', 'socket-full');
+//       });
+//     });
+
+//     // Handle drop (to finalize the drop and reset borders)
+//     socket.addEventListener('drop', (e) => {
+//       e.preventDefault();
+//       socket.classList.remove('border-green', 'border-red', 'border-none'); // Reset border on drop
+
+//       // Prevent duplicates in the same socket
+//       const isDuplicate = Array.from(socket.querySelectorAll('.item')).some(
+//         item => item.id.startsWith(originalItemId)
+//       );
+
+//       if (!isDuplicate) {
+//         playErrorSound(); // --------------------------------------------------------------
+//         return;
+//       }
+//     });
+
+// });
+
+// Add dragend listener to delete items dropped outside sockets
+document.addEventListener('dragend', (e) => {
+    const itemId = e.target.id;
+    const draggedItem = document.getElementById(itemId);
+
+    if (!draggedItem) return;
+
+    // Check if the dragged item was dropped inside any socket
+    const isDroppedInSocket = Array.from(sockets).some(socket => {
+      const rect = socket.getBoundingClientRect();
+      return (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      );
+    });
+
+    // Delete the item if dropped outside all sockets
+    if (!isDroppedInSocket && e.dataTransfer.getData('source') === 'n-s-item') {
+      draggedItem.remove();
+      console.log(`Item ${itemId} deleted because it was dropped outside a socket.`);
+      playDeleteSound(); // --------------------------------------------------------------
     }
-  });
-
 });
