@@ -1,5 +1,3 @@
-// File: gameTimeSystem.js
-
 class GameTimeSystem {
     constructor() {
       // Time management
@@ -66,7 +64,7 @@ class GameTimeSystem {
                       }
               }
   
-                          // Execute game loop logic for the current event
+    // Execute game loop logic for the current event
                     executeGameLogic(event) {
                           console.log(`---------------------------------------------`);
                           console.log(`Day: ${this.dayCount}, ${event}`);
@@ -82,15 +80,36 @@ class GameTimeSystem {
                             console.log('It’s a working day.');
                           }
                     }
-    }
-  
+}
+
+class PolarizationProcessor {
+  constructor() {
+        console.log('PolarizationProcessor initialized!');
+        
+        const beetleDead = 0;
+        const beetleRadical = 0;
+        const beetleNeutral = 100;
+        
+     // const beetleAlive = 100;
+      const bugDoBelieve = [];
+
+        const roomPlace = [];
+  }
+
+  doBugBelieve() {
+    this.beetleRadical++;
+  }
+};
+
+
+const polarizationProcessor = new PolarizationProcessor();
 
 
 
   // === Example Usage ===
   const game = new GameTimeSystem();
   
-  // Control buttons
+  // Time control buttons
   document.getElementById('playButton').addEventListener('click', () => game.play());
   document.getElementById('pauseButton').addEventListener('click', () => game.pause());
   document.getElementById('speed2xButton').addEventListener('click', () => game.setSpeed(2));
